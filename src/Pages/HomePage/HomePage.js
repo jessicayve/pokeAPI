@@ -1,8 +1,9 @@
-import {Header} from '../../Components/Header/Header';
-import { ContainerCard, PokemonContainer } from './HomePageStyle';
-import React, { useContext } from 'react';
-import { PokemonCard } from '../../Components/PokemonCard/PokemonCard';
-import { GlobalContext } from '../../GlobalContext/GlobalContext';
+import {Header} from '../../Components/Header/Header'
+import { ContainerCard, PokemonContainer } from './HomePageStyle'
+import React, { useContext } from 'react'
+import { PokemonCard } from '../../Components/PokemonCard/PokemonCard'
+import { GlobalContext } from '../../GlobalContext/GlobalContext'
+
 
 
 
@@ -11,6 +12,7 @@ export const HomePage = () => {
 
   const context = useContext(GlobalContext)
   const { pokelist, addPokedex, pokedex } = context
+ 
 
   const filteredPokelist = () =>
     pokelist.filter(
