@@ -62,7 +62,7 @@ export const Buttons = styled.div`
  border: none;
 `
 export const DetailsButton = styled.div`
- font-weight: 600;
+ font-weight: 500;
  font-size: 18px;
  text-decoration-line: underline;
  color: #FFFFFF;
@@ -73,7 +73,7 @@ export const DetailsButton = styled.div`
 export const CatchButton = styled.button`
  font-style: normal;
  font-weight: 400;
- font-size: 20px;
+ font-size: 18px;
  line-height: 16px;
  padding: 6px 30px;
  background: #FFFFFF;

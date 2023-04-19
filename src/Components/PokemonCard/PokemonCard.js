@@ -16,94 +16,75 @@ import { goToDetailsPage } from '../../routes/coordinator'
 export const PokemonCard = (props) => {
 
     const [pokemonColor, setPokemonColor] = useState("")
-
     const { pokemonUrl } = props;
-  
     const [pokemon, setPokemon] = useState({});
-  
-  
     const context = useContext(GlobalContext);
-    const { addToPokedex, removeFromPokedex } = context;
-  
-  
+    const { addToPokedex, removeFromPokedex, setIsOpen, setIsOpenDel } = context;
     const navigate = useNavigate()
-    const location = useLocation();
-  
-  
-  
+    const location = useLocation()
+
+
+
     useEffect(() => {
-      fetchPokemon();
+        fetchPokemon();
     }, []);
-  
+
     const fetchPokemon = async () => {
-      try {
-        const response = await axios.get(pokemonUrl);
-        setPokemon(response.data);
-        setPokemonColor(getColors(response.data.types[0].type.name))
-  
-      } catch (error) {
-        console.log("Error");
-        console.log(error);
-      }
+        try {
+            const response = await axios.get(pokemonUrl);
+            setPokemon(response.data);
+            setPokemonColor(getColors(response.data.types[0].type.name))
+
+        } catch (error) {
+            console.log("Error");
+            console.log(error);
+        }
     }
     const capitalizeFistLetter = (string) => {
         return string && string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    return (
 
+        <>
+         
+            <CardPokemon style={{ backgroundColor: pokemonColor }}
+            >
+                <PokemonNumber>
+                    <p>#{pokemon.id}</p>
+                </PokemonNumber>
+                <PokemonName>
+                    <h2>{capitalizeFistLetter(pokemon.name)}</h2>
+                </PokemonName>
+                <TypesContainer>
+                    {pokemon?.types?.map((type) => {
+                        return <PokemonType key={type} src={getTypes(type.type.name)} alt="type" />
+                    })}
+                </TypesContainer>
 
-  return (
+                <Buttons>
+                    <DetailsButton
+                        onClick={() => goToDetailsPage(navigate, pokemon.id)}>Details
+                    </DetailsButton>
 
-    <>
-      <CardPokemon style={{ backgroundColor: pokemonColor }} 
-      >
+                    {location.pathname === "/" ? (
+                        <CatchButton onClick={() => addToPokedex(pokemon) }>
+                            Catch!
+                        </CatchButton>
+                    ) : (
+                        <DeleteButton onClick={() => removeFromPokedex(pokemon)}>
+                            Delete
+                        </DeleteButton>
+                    )}
+                </Buttons>
 
-        
-        <PokemonNumber>
-          <p>#{pokemon.id}</p>
-        </PokemonNumber>
-
-        <PokemonName>
-          <h2>{capitalizeFistLetter(pokemon.name)}</h2>
-        </PokemonName>
-
-
-        <TypesContainer>
-          {pokemon?.types?.map((type) => {
-            return <PokemonType key={type} src={getTypes(type.type.name)} alt="type" />
-          })}
-        </TypesContainer>
-
-        <Buttons>
-          <DetailsButton 
-          onClick={() => goToDetailsPage(navigate, pokemon.id)}>Details
-          </DetailsButton>
-
-          {location.pathname === "/" ? (
-          <CatchButton onClick={() => addToPokedex(pokemon)}>
-            Catch!
-          </CatchButton>
-        ) : (
-          <DeleteButton onClick={() => removeFromPokedex(pokemon)}>
-            Delete
-          </DeleteButton>
-        )}
-
-
-        </Buttons>
-
-
-
-        <ImageContainer>
-          <img className='pokeImage'
-            src={pokemon.sprites?.other["official-artwork"].front_default} alt="pokemons" />
-
-          <img className='pokeball'
-            src={pokebola} alt="pokeball"/>
-        </ImageContainer>
-
-
-      </CardPokemon>
-    </>
-  )
+                <ImageContainer>
+                    <img className='pokeImage'
+                        src={pokemon.sprites?.other["official-artwork"].front_default} alt="pokemons" />
+                    <img className='pokeball'
+                        src={pokebola} alt="pokeball" />
+                </ImageContainer>
+            </CardPokemon>
+        </>
+    )
 }

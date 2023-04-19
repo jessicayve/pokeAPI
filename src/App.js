@@ -4,8 +4,9 @@ import { GlobalStyle } from "./GlobalStyle"
 import { useState } from "react"
 import { useEffect } from "react"
 import axios from "axios"
-import {GlobalContext} from "./GlobalContext/GlobalContext"
+import { GlobalContext } from "./GlobalContext/GlobalContext"
 import { ChakraProvider } from "@chakra-ui/react"
+
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
   const [pokelist, setPokelist] = useState([]);
   const [pokemon, setPokemon] = useState([])
   const [pokemonDetails, setPokemonDetails] = useState({});
-  
+
 
   useEffect(() => {
     getPokemons()
@@ -31,56 +32,47 @@ function App() {
     }
   }
 
+  const addToPokedex = (pokemonToAdd) => {
+    const isAlreadyOnPokedex = pokedex.find(
+      (pokemonInPokedex) => pokemonInPokedex.name === pokemonToAdd.name
+    );
 
+    if (!isAlreadyOnPokedex) {
+      const newPokedex = [...pokedex, pokemonToAdd];
+      setPokedex(newPokedex);
+    }
+  }
 
-const addToPokedex = (pokemonToAdd) => {
-const isAlreadyOnPokedex = pokedex.find(
-  (pokemonInPokedex) => pokemonInPokedex.name === pokemonToAdd.name
-);
+  const removeFromPokedex = (pokemonToRemove) => {
+    const newPokedex = pokedex.filter(
+      (pokemonInPokedex) => pokemonInPokedex.id !== Number(pokemonToRemove.id)
+    )
 
-if (!isAlreadyOnPokedex) {
-  const newPokedex = [...pokedex, pokemonToAdd];
-  setPokedex(newPokedex);
-}
-}
+    setPokedex(newPokedex);
+  }
+  const context = {
+    pokemon,
+    setPokemon,
+    pokelist,
+    setPokelist,
+    pokemonDetails,
+    setPokemonDetails,
+    pokedex,
+    setPokedex,
+    addToPokedex,
+    removeFromPokedex
 
-const removeFromPokedex = (pokemonToRemove) => {
-const newPokedex = pokedex.filter(
-  (pokemonInPokedex) => pokemonInPokedex.id !== Number(pokemonToRemove.id)
-)
-
-setPokedex(newPokedex);
-}
-const context = {
-pokemon,
-setPokemon,
-pokelist,
-setPokelist,
-pokemonDetails,
-setPokemonDetails,
-pokedex,
-setPokedex,
-addToPokedex,
-removeFromPokedex
-
-}
+  }
 
   return (
-  
     <>
-    <GlobalContext.Provider value={context}>
-    <ChakraProvider>
-
-    <GlobalStyle/>
-    <Router/>
-    </ChakraProvider>
-   
-    </GlobalContext.Provider>
-    
+      <GlobalContext.Provider value={context}>
+        <ChakraProvider>
+          <GlobalStyle />
+          <Router />
+        </ChakraProvider>
+      </GlobalContext.Provider>
     </>
-    
-    
-   
   )
 }
 
