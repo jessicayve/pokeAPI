@@ -24,7 +24,7 @@ import {
 } from "../PokemonDetailsPage/PokemonDetailsPageStyle"
 import logoPokemonCard from "../../assets/logoPokemonCard.png";
 
-function PokemonDetailPage() {
+function PokemonDetailsPage() {
   const [pokemon, setPokemon] = useState({});
   const [bgColor, setBgColor] = useState("");
   const [types, setTypes] = useState([]);
@@ -217,9 +217,4 @@ function PokemonDetailPage() {
     </>
   );
 }
-
-<<<<<<< HEAD
-export default PokemonDetailPage;
-=======
-export default PokemonDetailPage;
->>>>>>> 9ff1b2d32a0b587d1577b29561700e8e4389ab50
+export default PokemonDetailsPage;
