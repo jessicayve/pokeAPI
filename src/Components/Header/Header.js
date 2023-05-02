@@ -14,7 +14,8 @@ export function Header(props) {
 
   const [pokemonAlreadyOnPokedex, setPokemonAlreadyOnPokedex] = useState(false);
 
-  const { addPokemonToPokedex, pokedex, removeFromPokedex, pokemonDetails} = context;
+  const { addToPokedex, pokedex, removeFromPokedex, pokemonDetails} = context
+  const [pokemon, setPokemon] = useState({})
 
   useEffect(() => {
     checkPokemonAlreadyOnPokedex()
@@ -32,9 +33,8 @@ export function Header(props) {
 
   const setPokemonToPokedex = () => {
     const copyPokemon = pokemonDetails
-    copyPokemon.url = `https://pokeapi.co/api/v2/pokemon/${params.id}/`;
-    console.log(copyPokemon)
-    addPokemonToPokedex(copyPokemon);
+    copyPokemon.url = `https://pokeapi.co/api/v2/pokemon/${params.id}/`
+    addToPokedex(copyPokemon)
     checkPokemonAlreadyOnPokedex(copyPokemon)
   }
 
@@ -116,7 +116,7 @@ export function Header(props) {
             cursor={"pointer"}
             onClick={() => goToHomePage(navigate)}
           >
-            {"< "}All pokémon
+            {"< "}All Pokémons
           </Button>
 
           <img src={pokemonLogo} alt="Pokemon logo" />
@@ -125,32 +125,33 @@ export function Header(props) {
             pokemonAlreadyOnPokedex ? (
 
               <Button
-              onClick={() => removePokemon()}
-              backgroundColor="#FF6262"
+              onClick={() => goToPokedexPage(navigate)}
+              backgroundColor="#33A4F5"
               w="167px"
               h="45px"
               borderRadius={5}
               fontFamily={"Poppins"}
               border={"hidden"}
               cursor={"pointer"}
-              color="#ffffff"
-              fontWeight="bold"
+              color="#fcfefe"
+              fontSize={"20"}
+              letterSpacing={1}
             >
-              Delete
+              Pokédex
             </Button>
 
             ) : (
               <Button
               cursor={"pointer"}
+              backgroundColor="#33A4F5"
               fontStyle={"400"}
-              fontSize={"16"}
+              fontSize={"20"}
               lineHeight={"24"}
-              color={"#0F0F0F"}
-              w="146px"
-              h="38px"
-              right={"15px"}
+              color="#fcfefe"
+              w="167px"
+              h="45px"
+              borderRadius={5}
               border={"hidden"}
-              borderRadius={8}
               colorScheme="white"
               fontFamily={"Poppins"}
               onClick={() => setPokemonToPokedex()}

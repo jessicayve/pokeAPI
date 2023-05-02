@@ -19,7 +19,7 @@ export const PokemonCard = (props) => {
     const { pokemonUrl } = props;
     const [pokemon, setPokemon] = useState({});
     const context = useContext(GlobalContext);
-    const { addToPokedex, removeFromPokedex, setIsOpen, setIsOpenDel } = context;
+    const { addToPokedex, removeFromPokedex } = context;
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -68,7 +68,7 @@ export const PokemonCard = (props) => {
                     </DetailsButton>
 
                     {location.pathname === "/" ? (
-                        <CatchButton onClick={() => addToPokedex(pokemon) }>
+                        <CatchButton onClick={() => addToPokedex(pokemon)}>
                             Catch!
                         </CatchButton>
                     ) : (

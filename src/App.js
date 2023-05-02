@@ -47,7 +47,6 @@ function App() {
     const newPokedex = pokedex.filter(
       (pokemonInPokedex) => pokemonInPokedex.id !== Number(pokemonToRemove.id)
     )
-
     setPokedex(newPokedex);
   }
   const context = {
@@ -67,6 +66,7 @@ function App() {
   return (
     <>
       <GlobalContext.Provider value={context}>
+        
         <ChakraProvider>
           <GlobalStyle />
           <Router />

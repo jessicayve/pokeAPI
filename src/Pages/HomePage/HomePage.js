@@ -1,4 +1,4 @@
-import {Header} from '../../Components/Header/Header'
+import Header from '../../Components/Header/Header'
 import { ContainerCard, PokemonContainer } from './HomePageStyle'
 import React, { useContext } from 'react'
 import { PokemonCard } from '../../Components/PokemonCard/PokemonCard'

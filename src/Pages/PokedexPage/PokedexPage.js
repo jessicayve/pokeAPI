@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header } from '../../Components/Header/Header'
+import Header from '../../Components/Header/Header'
 import { useContext } from 'react'
 import { ContainerPokedex, Pokedex, PokedexTitle } from './PokedexPageStyle'
 import { GlobalContext } from '../../GlobalContext/GlobalContext'
