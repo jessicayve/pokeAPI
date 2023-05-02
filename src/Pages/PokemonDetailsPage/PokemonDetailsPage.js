@@ -1,9 +1,221 @@
-import React from 'react'
+import { React, useState, useEffect, useContext } from "react";
+import { GlobalContext } from "../../GlobalContext/GlobalContext";
+import axios from "axios";
+import Header from "../../Components/Header/Header";
+import { getTypes } from "../../utils/ReturnPokemonType";
+import { getColors } from "../../utils/ReturnCardColors";
+import { useParams } from "react-router-dom";
+import {
+  CardDetails,
+  ContainerDetailPage,
+  TitleDetails,
+  Pokebola,
+  LogoPokemon,
+  BoxPokemon,
+  ContainerBaseStats,
+  TitleBaseStats,
+  BaseStats,
+  BarPokemon,
+  Progress,
+  PokemonTypeContainer,
+  ContainerMoves,
+  TypeItemPokemon,
+  LogoPokemonContainer,
+} from "../PokemonDetailsPage/PokemonDetailsPageStyle"
+import logoPokemonCard from "../../assets/logoPokemonCard.png";
 
-const PokemonDetailsPage = () => {
+function PokemonDetailPage() {
+  const [pokemon, setPokemon] = useState({});
+  const [bgColor, setBgColor] = useState("");
+  const [types, setTypes] = useState([]);
+  const [totalStats, setTotalStats] = useState(0);
+  
+
+  const context = useContext(GlobalContext);
+  const params = useParams();
+
+  const { addToPokedex,setPokemonDetails, removeFromPokedex } = context;
+
+  useEffect(() => {
+    fetchPokemonDetails();
+  }, []);
+
+  const fetchPokemonDetails = async () => {
+    await axios
+      .get(`https://pokeapi.co/api/v2/pokemon/${params.id}/`)
+      .then((response) => {
+        const pokemon = response.data;
+        setPokemon(pokemon);
+        setBgColor(getColors(pokemon.types[0].type.name));
+        setTypes(pokemon.types);
+        setPokemonDetails(pokemon);
+        const total = pokemon.stats.reduce((contador, stats) => {
+          return (contador += stats.base_stat);
+        }, 0);
+        setTotalStats(total);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
-    <div>PokemonDetailsPage</div>
-  )
+    <>
+      <Header  />
+      <ContainerDetailPage >
+            <div className="pokebolaContainer">
+              <LogoPokemonContainer src={logoPokemonCard} alt="logo do Pokémon" />
+            </div>
+        <TitleDetails>Details</TitleDetails>
+        <CardDetails
+          style={{
+            backgroundColor: bgColor,
+          }}
+        >
+          <div>
+            <BoxPokemon>
+              <img src={pokemon.sprites?.versions["generation-v"]["black-white"].animated.front_default} alt="" />
+            </BoxPokemon>
+            <BoxPokemon>
+              <img src={pokemon.sprites?.versions["generation-v"]["black-white"].animated.back_default} alt="" />
+            </BoxPokemon>
+          </div>
+
+          <ContainerBaseStats>
+            <TitleBaseStats>Base stats</TitleBaseStats>
+            <div>
+              <hr />
+              <BaseStats>
+                <span>HP</span>
+                <span className="stats">
+                  {pokemon.stats && pokemon?.stats[0]?.base_stat}
+                </span>
+                <BarPokemon>
+                  <Progress
+                    width={pokemon.stats && pokemon?.stats[0]?.base_stat}
+                  />
+                </BarPokemon>
+              </BaseStats>
+              <hr />
+              <BaseStats>
+                <span>Attack</span>
+                <span className="stats">
+                  {pokemon.stats && pokemon?.stats[1]?.base_stat}
+                </span>
+                <BarPokemon>
+                  <Progress
+                    width={pokemon.stats && pokemon?.stats[1]?.base_stat}
+                  />
+                </BarPokemon>
+              </BaseStats>
+              <hr />
+              <BaseStats>
+                <span>Defense</span>
+                <span className="stats">
+                  {pokemon.stats && pokemon?.stats[2]?.base_stat}
+                </span>
+                <BarPokemon>
+                  <Progress
+                    width={pokemon.stats && pokemon?.stats[2]?.base_stat}
+                  />
+                </BarPokemon>
+              </BaseStats>
+              <hr />
+              <BaseStats>
+                <span>Sp. Atk</span>
+                <span className="stats">
+                  {pokemon.stats && pokemon?.stats[3]?.base_stat}
+                </span>
+                <BarPokemon>
+                  <Progress
+                    className="special"
+                    width={pokemon.stats && pokemon?.stats[3]?.base_stat}
+                  />
+                </BarPokemon>
+              </BaseStats>
+              <hr />
+              <BaseStats>
+                <span>Sp. Def</span>
+                <span className="stats">
+                  {pokemon.stats && pokemon?.stats[4]?.base_stat}
+                </span>
+                <BarPokemon>
+                  <Progress
+                    className="special"
+                    width={pokemon.stats && pokemon?.stats[4]?.base_stat}
+                  />
+                </BarPokemon>
+              </BaseStats>
+              <hr />
+              <BaseStats>
+                <span>Speed</span>
+                <span className="stats">
+                  {pokemon.stats && pokemon?.stats[5]?.base_stat}
+                </span>
+                <BarPokemon>
+                  <Progress
+                    width={pokemon.stats && pokemon?.stats[5]?.base_stat}
+                  />
+                </BarPokemon>
+              </BaseStats>
+              <hr />
+              <BaseStats>
+                  <div className="total">
+                    <span>Total</span>
+                    <span className="stats">{totalStats}</span>
+                  </div>
+              </BaseStats>
+              <hr />
+            </div>
+          </ContainerBaseStats>
+          <div>
+            <p className="idPokemon">#{pokemon.id}</p>
+            <p className="name">{pokemon.name}</p>
+
+            <PokemonTypeContainer>
+              <div>
+                {types.map((type) => {
+                  return (
+                    <img
+                      className="imgTypePokemon"
+                      key={type.type.name}
+                      src={getTypes(type.type.name)}
+                      alt={type.type.name}
+                    />
+                  );
+                })}
+              </div>
+            </PokemonTypeContainer>
+          </div>
+
+          <ContainerMoves>
+            <h2>Moves:</h2>
+            <div>
+              {pokemon.moves &&
+                pokemon.moves.splice(5) &&
+                pokemon.moves.map((item) => {
+                  return (
+                    <TypeItemPokemon key={item.move.name}>
+                      {item.move.name}
+                    </TypeItemPokemon>
+                  );
+                })}
+            </div>
+          </ContainerMoves>
+
+          <img
+            className="imgPokemon"
+            src={pokemon.sprites?.other["official-artwork"].front_default}
+            alt={pokemon.name}
+          />
+
+          <Pokebola>
+            <LogoPokemon src={logoPokemonCard} alt="logo do Pokémon" />
+          </Pokebola>
+        </CardDetails>
+      </ContainerDetailPage>
+    </>
+  );
 }
 
-export default PokemonDetailsPage
+export default PokemonDetailPage;
