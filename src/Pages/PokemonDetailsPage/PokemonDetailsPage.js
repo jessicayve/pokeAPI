@@ -218,4 +218,8 @@ function PokemonDetailPage() {
   );
 }
 
+<<<<<<< HEAD
 export default PokemonDetailPage;
+=======
+export default PokemonDetailPage;
+>>>>>>> 9ff1b2d32a0b587d1577b29561700e8e4389ab50
