@@ -11,7 +11,3 @@ Website of pokemons to be added to your own pokedex!
 
 
 
-
-## Deploy
-
-https://poke-6gxm671nt-jessicayve.vercel.app/
